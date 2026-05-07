@@ -25,7 +25,7 @@
 | Database | PostgreSQL 16 (Neon.tech) |
 | ORM      | **Prisma** |
 | Testing  | **Vitest** + Supertest + Newman |
-| Deploy   | Vercel (FE) + Render (BE) + Neon.tech (DB) |
+| Deploy   | Vercel (FE) + Render (BE + DB) |
 
 ---
 
@@ -172,25 +172,37 @@ npm install && npm run dev
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `DATABASE_URL` | Neon.tech PostgreSQL URL | `postgresql://user:pass@...neon.tech/db?sslmode=require` |
+| `DATABASE_URL` | Render PostgreSQL URL | `postgresql://user:pass@...render.com/db` |
 | `JWT_SECRET` | Random secret string | *(ไม่ระบุ)* |
 | `CORS_ORIGIN` | Frontend URL | `https://your-app.vercel.app` |
 
-### Neon.tech Database Setup
-1. ไปที่ https://console.neon.tech → สร้าง Project ใหม่
-2. Copy Connection String → ใส่เป็น `DATABASE_URL`
-3. รัน `npx prisma db push` เพื่อสร้าง Schema
+### Render PostgreSQL Database Setup
+1. ไปที่ https://dashboard.render.com → Databases → New PostgreSQL
+2. เลือก Free plan หรือ Paid ตามต้องการ
+3. Copy External Database URL → ใส่เป็น `DATABASE_URL`
+4. รัน `npx prisma db push` เพื่อสร้าง Schema (local หรือใน Render build)
 
 ### Vercel Deployment (Frontend)
 1. Import repo → Root Directory: `frontend`
 2. Framework: Vite
 3. Env: `VITE_API_URL=https://your-backend.onrender.com/api`
 
-### Render Deployment (Backend)
-1. New Web Service → Root: `backend`
-2. Build: `npm install && npx prisma generate && npm run build`
-3. Start: `npm start`
-4. Add all env vars in Dashboard
+### Render Deployment (Backend + Database)
+1. สร้าง PostgreSQL database บน Render (ตามขั้นตอนด้านบน)
+2. New Web Service → Connect GitHub repo → เลือก branch
+3. Root Directory: (ว่าง) หรือ `backend` ถ้าใช้ Dockerfile แยก
+4. Environment: Docker
+5. Build Command: (ว่าง - ใช้ Dockerfile)
+6. Start Command: (ว่าง - ใช้ Dockerfile CMD)
+7. Add Environment Variables ใน Environment tab:
+   - `DATABASE_URL`: จาก database ที่สร้าง
+   - `JWT_SECRET`: random string
+   - `CORS_ORIGIN`: frontend URL
+8. Deploy → Monitor logs
+
+หรือใช้ `render.yaml` สำหรับ auto-configuration:
+- Push `render.yaml` ไป GitHub
+- ใน Render Dashboard → Settings → YAML → Enable
 
 ### Smoke Test Results
 
