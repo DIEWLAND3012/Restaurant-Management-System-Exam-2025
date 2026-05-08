@@ -2,9 +2,9 @@
 
 > **ข้อสอบปฏิบัติการทดสอบและติดตั้งระบบซอฟต์แวร์เชิงธุรกิจ**  
 > รายวิชา: การออกแบบและพัฒนาซอฟต์แวร์ 1  
-> ชื่อ-นามสกุล: ___________________________  
-> รหัสนักศึกษา: ___________________________  
-> วันที่สอบ: ___________________________
+> ชื่อ-นามสกุล: วศิน แก้วมรกต
+> รหัสนักศึกษา: 68030262  
+> วันที่สอบ: 8 พฤษภาคม 2569
 
 ---
 
@@ -19,26 +19,26 @@
 
 ## Tech Stack
 
-| Layer      | Technology                                      |
-|------------|-------------------------------------------------|
-| Frontend   | React 18 + Vite + TypeScript + Tailwind CSS     |
-| Backend    | Node.js 22 LTS + Express + TypeScript           |
-| Database   | PostgreSQL 16 (Neon.tech)                       |
-| ORM        | Prisma                                          |
-| Testing    | Vitest (Unit) + Newman (E2E)                    |
-| Container  | Docker / Docker Compose                         |
-| CI/CD      | GitHub Actions                                  |
+| Layer     | Technology                                  |
+| --------- | ------------------------------------------- |
+| Frontend  | React 18 + Vite + TypeScript + Tailwind CSS |
+| Backend   | Node.js 22 LTS + Express + TypeScript       |
+| Database  | PostgreSQL 16 (Neon.tech)                   |
+| ORM       | Prisma                                      |
+| Testing   | Vitest (Unit) + Newman (E2E)                |
+| Container | Docker / Docker Compose                     |
+| CI/CD     | GitHub Actions                              |
 
 ---
 
 ## Production URLs
 
-| Service            | URL                                      | Status |
-|--------------------|------------------------------------------|--------|
-| Frontend (Vercel)  | `https://[your-app].vercel.app`          | ⬜     |
-| Backend (Render)   | `https://[your-api].onrender.com`        | ⬜     |
-| API Health Check   | `https://[your-api].onrender.com/api/health` | ⬜ |
-| Database (Neon)    | `postgresql://...@...neon.tech/...`      | ⬜     |
+| Service           | URL                                          | Status |
+| ----------------- | -------------------------------------------- | ------ |
+| Frontend (Vercel) | `https://[your-app].vercel.app`              | ⬜     |
+| Backend (Render)  | `https://[your-api].onrender.com`            | ⬜     |
+| API Health Check  | `https://[your-api].onrender.com/api/health` | ⬜     |
+| Database (Neon)   | `postgresql://...@...neon.tech/...`          | ⬜     |
 
 ---
 
@@ -49,58 +49,62 @@
 ### 1.1 ขอบเขตการทดสอบ (Test Scope)
 
 #### In Scope
-| Feature   | เหตุผลที่ทดสอบ |
-|-----------|----------------|
-| Auth      | ระบบ Login/Logout และ Role-based Access |
-| Menu      | CRUD เมนูและการจัดการสต็อก |
-| Order     | เปิดโต๊ะ รับออเดอร์ แก้ไข ยืนยัน |
-| Payment   | ชำระเงิน คำนวณทอน พิมพ์ใบเสร็จ |
-| Report    | ยอดขายรายวัน/รายเดือน เมนูขายดี |
-| Security  | JWT, RBAC, SQL Injection, XSS |
+
+| Feature  | เหตุผลที่ทดสอบ                          |
+| -------- | --------------------------------------- |
+| Auth     | ระบบ Login/Logout และ Role-based Access |
+| Menu     | CRUD เมนูและการจัดการสต็อก              |
+| Order    | เปิดโต๊ะ รับออเดอร์ แก้ไข ยืนยัน        |
+| Payment  | ชำระเงิน คำนวณทอน พิมพ์ใบเสร็จ          |
+| Report   | ยอดขายรายวัน/รายเดือน เมนูขายดี         |
+| Security | JWT, RBAC, SQL Injection, XSS           |
 
 #### Out of Scope
-| Feature       | เหตุผลที่ไม่ทดสอบ |
-|---------------|--------------------|
+
+| Feature                                          | เหตุผลที่ไม่ทดสอบ           |
+| ------------------------------------------------ | --------------------------- |
 | <!-- ตัวอย่าง --> Performance Load Test (JMeter) | ไม่อยู่ในขอบเขตของข้อสอบนี้ |
-| <!-- เพิ่มเติม --> | |
+| <!-- เพิ่มเติม -->                               |                             |
 
 ---
 
 ### 1.2 แนวทางการทดสอบ (Test Approach)
 
-| ประเภทการทดสอบ           | เครื่องมือ       | รายละเอียด |
-|--------------------------|-----------------|------------|
-| Unit Testing             | Vitest          | ทดสอบฟังก์ชันใน Backend |
-| API Testing (E2E)        | Postman / Newman | ทดสอบ REST API endpoint ทั้งหมด |
-| Security Testing         | npm audit, Manual | ตรวจสอบช่องโหว่ Dependency และ API |
-| Smoke Testing            | Manual / Newman | ทดสอบ Feature หลัก 4 รายการบน Production |
-| Staging Deployment Test  | Docker Compose  | ทดสอบก่อน Deploy บน Cloud |
+| ประเภทการทดสอบ          | เครื่องมือ        | รายละเอียด                               |
+| ----------------------- | ----------------- | ---------------------------------------- |
+| Unit Testing            | Vitest            | ทดสอบฟังก์ชันใน Backend                  |
+| API Testing (E2E)       | Postman / Newman  | ทดสอบ REST API endpoint ทั้งหมด          |
+| Security Testing        | npm audit, Manual | ตรวจสอบช่องโหว่ Dependency และ API       |
+| Smoke Testing           | Manual / Newman   | ทดสอบ Feature หลัก 4 รายการบน Production |
+| Staging Deployment Test | Docker Compose    | ทดสอบก่อน Deploy บน Cloud                |
 
 ---
 
 ### 1.3 สภาพแวดล้อมทดสอบ (Test Environment)
 
-| รายการ         | เวอร์ชัน / ค่า                     |
-|----------------|------------------------------------|
-| OS             | <!-- เช่น Windows 11 / Ubuntu 22.04 --> |
-| Node.js        | 22 LTS                             |
-| npm            | <!-- ระบุเวอร์ชัน -->               |
-| Docker         | <!-- ระบุเวอร์ชัน -->               |
-| PostgreSQL     | 16 (Neon.tech)                     |
-| Browser        | <!-- เช่น Chrome 124 -->            |
-| Newman         | <!-- ระบุเวอร์ชัน -->               |
+| รายการ     | เวอร์ชัน / ค่า                          |
+| ---------- | --------------------------------------- |
+| OS         | <!-- เช่น Windows 11 / Ubuntu 22.04 --> |
+| Node.js    | 22 LTS                                  |
+| npm        | <!-- ระบุเวอร์ชัน -->                   |
+| Docker     | <!-- ระบุเวอร์ชัน -->                   |
+| PostgreSQL | 16 (Neon.tech)                          |
+| Browser    | <!-- เช่น Chrome 124 -->                |
+| Newman     | <!-- ระบุเวอร์ชัน -->                   |
 
 ---
 
 ### 1.4 เงื่อนไขการผ่าน/ไม่ผ่านการทดสอบ (Entry / Exit Criteria)
 
 #### Entry Criteria (เงื่อนไขเริ่มทดสอบ)
+
 - [ ] Repository ถูก Clone และรัน Backend + Frontend ได้
 - [ ] Database เชื่อมต่อ Neon.tech สำเร็จ
 - [ ] `/api/health` ตอบกลับ `{"status":"ok"}`
 - [ ] Postman Collection พร้อมสำหรับ Newman
 
 #### Exit Criteria (เงื่อนไขผ่านการทดสอบ)
+
 - Newman Pass Rate ≥ **80%** ถือว่าพร้อมติดตั้ง
 - ไม่มี Bug ระดับ **Critical** ที่ยังไม่ได้แก้ไข
 - Smoke Test ผ่านทุก 4 Feature หลักบน Production
@@ -109,11 +113,11 @@
 
 ### 1.5 ความเสี่ยงเชิงธุรกิจ (Business Risk)
 
-| # | Feature ที่มีความเสี่ยง | ผลกระทบหากเกิดความผิดพลาด | ระดับความเสี่ยง |
-|---|------------------------|--------------------------|----------------|
-| 1 | Payment (ชำระเงิน)      | ร้านไม่สามารถรับเงินได้ ลูกค้ารอนาน เสียรายได้โดยตรง | Critical |
-| 2 | Order (รับออเดอร์)      | ออเดอร์ไม่ถึงครัว อาหารไม่ถูกจัดเตรียม ลูกค้าไม่พอใจ | High |
-| <!-- เพิ่มอย่างน้อย 2 รายการ --> | | | |
+| #                                | Feature ที่มีความเสี่ยง | ผลกระทบหากเกิดความผิดพลาด                            | ระดับความเสี่ยง |
+| -------------------------------- | ----------------------- | ---------------------------------------------------- | --------------- |
+| 1                                | Payment (ชำระเงิน)      | ร้านไม่สามารถรับเงินได้ ลูกค้ารอนาน เสียรายได้โดยตรง | Critical        |
+| 2                                | Order (รับออเดอร์)      | ออเดอร์ไม่ถึงครัว อาหารไม่ถูกจัดเตรียม ลูกค้าไม่พอใจ | High            |
+| <!-- เพิ่มอย่างน้อย 2 รายการ --> |                         |                                                      |                 |
 
 ---
 
@@ -123,22 +127,22 @@
 
 ### กรณีทดสอบทั้งหมด (≥ 10 กรณี)
 
-| TC-ID   | Type     | Feature  | Scenario                        | Input                                             | Expected Result          | Actual Result | Pass/Fail |
-|---------|----------|----------|---------------------------------|---------------------------------------------------|--------------------------|---------------|-----------|
-| TC-001  | Positive | Auth     | Login ด้วย credential ถูกต้อง  | `{username: "admin", password: "Admin@123"}`      | HTTP 200 + JWT Token     |               | ⬜        |
-| TC-002  | Positive | Menu     | เพิ่มเมนูใหม่สำเร็จ            | `{name: "ข้าวผัด", price: 60, stock: 100}`        | HTTP 201 + menu object   |               | ⬜        |
-| TC-003  | Positive | Payment  | ชำระเงินและรับเงินทอนถูกต้อง   | `{orderId: 1, amount: 200}`                       | HTTP 200 + change = X    |               | ⬜        |
-| TC-004  | Negative | Auth     | Login ด้วย password ผิด        | `{username: "admin", password: "wrong"}`          | HTTP 401 Unauthorized    |               | ⬜        |
-| TC-005  | Negative | Order    | เพิ่มสินค้าที่หมดสต็อก         | `{menuId: 99, quantity: 999}`                     | HTTP 400 + error message |               | ⬜        |
-| TC-006  | Negative | Payment  | ชำระเงินน้อยกว่ายอดรวม        | `{orderId: 1, amount: 10}`                        | HTTP 400 Insufficient    |               | ⬜        |
-| TC-007  | Security | Auth     | เรียก API โดยไม่มี JWT Token   | GET /api/orders (no header)                       | HTTP 401 Unauthorized    |               | ⬜        |
-| TC-008  | Security | Order    | Cashier เข้าถึง Admin endpoint | Token ของ Cashier + DELETE /api/menu/1            | HTTP 403 Forbidden       |               | ⬜        |
-| TC-009  | Security | Auth     | SQL Injection ใน Login field   | `{username: "' OR 1=1 --", password: "x"}`        | HTTP 401 (ไม่ผ่าน Login) |               | ⬜        |
-| TC-010  | Edge     | Order    | ออเดอร์ที่ไม่มีสินค้า (0 ชิ้น) | `{tableId: 1, items: []}`                         | HTTP 400 + error message |               | ⬜        |
-| TC-011  | Edge     | Payment  | ชำระเงินพอดียอด (change = 0)   | `{orderId: 1, amount: exactTotal}`                | HTTP 200 + change = 0    |               | ⬜        |
-| <!-- เพิ่มกรณีทดสอบ --> | | | | | | | |
+| TC-ID                   | Type     | Feature | Scenario                       | Input                                        | Expected Result          | Actual Result | Pass/Fail |
+| ----------------------- | -------- | ------- | ------------------------------ | -------------------------------------------- | ------------------------ | ------------- | --------- |
+| TC-001                  | Positive | Auth    | Login ด้วย credential ถูกต้อง  | `{username: "admin", password: "Admin@123"}` | HTTP 200 + JWT Token     |               | ⬜        |
+| TC-002                  | Positive | Menu    | เพิ่มเมนูใหม่สำเร็จ            | `{name: "ข้าวผัด", price: 60, stock: 100}`   | HTTP 201 + menu object   |               | ⬜        |
+| TC-003                  | Positive | Payment | ชำระเงินและรับเงินทอนถูกต้อง   | `{orderId: 1, amount: 200}`                  | HTTP 200 + change = X    |               | ⬜        |
+| TC-004                  | Negative | Auth    | Login ด้วย password ผิด        | `{username: "admin", password: "wrong"}`     | HTTP 401 Unauthorized    |               | ⬜        |
+| TC-005                  | Negative | Order   | เพิ่มสินค้าที่หมดสต็อก         | `{menuId: 99, quantity: 999}`                | HTTP 400 + error message |               | ⬜        |
+| TC-006                  | Negative | Payment | ชำระเงินน้อยกว่ายอดรวม         | `{orderId: 1, amount: 10}`                   | HTTP 400 Insufficient    |               | ⬜        |
+| TC-007                  | Security | Auth    | เรียก API โดยไม่มี JWT Token   | GET /api/orders (no header)                  | HTTP 401 Unauthorized    |               | ⬜        |
+| TC-008                  | Security | Order   | Cashier เข้าถึง Admin endpoint | Token ของ Cashier + DELETE /api/menu/1       | HTTP 403 Forbidden       |               | ⬜        |
+| TC-009                  | Security | Auth    | SQL Injection ใน Login field   | `{username: "' OR 1=1 --", password: "x"}`   | HTTP 401 (ไม่ผ่าน Login) |               | ⬜        |
+| TC-010                  | Edge     | Order   | ออเดอร์ที่ไม่มีสินค้า (0 ชิ้น) | `{tableId: 1, items: []}`                    | HTTP 400 + error message |               | ⬜        |
+| TC-011                  | Edge     | Payment | ชำระเงินพอดียอด (change = 0)   | `{orderId: 1, amount: exactTotal}`           | HTTP 200 + change = 0    |               | ⬜        |
+| <!-- เพิ่มกรณีทดสอบ --> |          |         |                                |                                              |                          |               |           |
 
-**สรุปผล:** ผ่าน ___ / ___ กรณี (___%)
+**สรุปผล:** ผ่าน **_ / _** กรณี (\_\_\_%)
 
 ---
 
@@ -167,7 +171,7 @@ Run Date:   YYYY-MM-DD HH:MM
 └────────────────────────────────────────────┘
 ```
 
-**Pass Rate:** _____ / _____ (____%)  
+**Pass Rate:** **\_** / **\_** (\_\_\_\_%)  
 **Newman Report (HTML):** `./tests/reports/newman-report.html`
 
 > 📸 วางภาพหน้าจอผลการรัน Newman ที่นี่
@@ -186,20 +190,21 @@ cd backend && npm audit --audit-level=moderate
 ```
 
 | Severity | จำนวน |
-|----------|--------|
-| Critical | 0      |
-| High     | 0      |
-| Medium   | 0      |
-| Low      | 0      |
-| **รวม**  | **0**  |
+| -------- | ----- |
+| Critical | 0     |
+| High     | 0     |
+| Medium   | 0     |
+| Low      | 0     |
+| **รวม**  | **0** |
 
 #### รายละเอียด Dependency ที่มีช่องโหว่ระดับ High ขึ้นไป
 
-| Package | CVE ID | Severity | เวอร์ชันที่มีปัญหา | เวอร์ชันที่ปลอดภัย | สถานะ |
-|---------|--------|----------|--------------------|---------------------|-------|
-| <!-- ระบุรายละเอียด --> | | | | | |
+| Package                 | CVE ID | Severity | เวอร์ชันที่มีปัญหา | เวอร์ชันที่ปลอดภัย | สถานะ |
+| ----------------------- | ------ | -------- | ------------------ | ------------------ | ----- |
+| <!-- ระบุรายละเอียด --> |        |          |                    |                    |       |
 
 **แก้ไขด้วย:**
+
 ```bash
 npm audit fix
 ```
@@ -214,12 +219,12 @@ cd frontend && npm audit --audit-level=moderate
 ```
 
 | Severity | จำนวน |
-|----------|--------|
-| Critical | 0      |
-| High     | 0      |
-| Medium   | 0      |
-| Low      | 0      |
-| **รวม**  | **0**  |
+| -------- | ----- |
+| Critical | 0     |
+| High     | 0     |
+| Medium   | 0     |
+| Low      | 0     |
+| **รวม**  | **0** |
 
 ---
 
@@ -237,21 +242,26 @@ cd frontend && npm audit --audit-level=moderate
 **Status:** Open / Fixed
 
 #### Steps to Reproduce
+
 1. ...
 2. ...
 3. ...
 
 #### Expected Result
+
 > [สิ่งที่ควรเกิดขึ้น]
 
 #### Actual Result
+
 > [สิ่งที่เกิดขึ้นจริง]
 
 #### Evidence
+
 > 📸 วางภาพหน้าจอที่นี่  
 > `![BUG-001 Screenshot](./tests/reports/bug-001.png)`
 
 #### Business Impact
+
 > [ผลกระทบต่อธุรกิจ — เช่น ลูกค้าชำระเงินไม่ได้ ทำให้ร้านเสียรายได้]
 
 ---
@@ -264,21 +274,26 @@ cd frontend && npm audit --audit-level=moderate
 **Status:** Open / Fixed
 
 #### Steps to Reproduce
+
 1. ...
 2. ...
 3. ...
 
 #### Expected Result
+
 > [สิ่งที่ควรเกิดขึ้น]
 
 #### Actual Result
+
 > [สิ่งที่เกิดขึ้นจริง]
 
 #### Evidence
+
 > 📸 วางภาพหน้าจอที่นี่  
 > `![BUG-002 Screenshot](./tests/reports/bug-002.png)`
 
 #### Business Impact
+
 > [ผลกระทบต่อธุรกิจ]
 
 ---
@@ -289,12 +304,12 @@ cd frontend && npm audit --audit-level=moderate
 
 ### Prerequisites
 
-| รายการ       | เวอร์ชันที่ต้องการ | ลิงก์ดาวน์โหลด |
-|--------------|-------------------|----------------|
-| Node.js      | 22 LTS            | https://nodejs.org |
-| Git          | ล่าสุด            | https://git-scm.com |
-| Docker       | ล่าสุด            | https://docker.com |
-| Docker Compose | v2+             | (รวมกับ Docker Desktop) |
+| รายการ         | เวอร์ชันที่ต้องการ | ลิงก์ดาวน์โหลด          |
+| -------------- | ------------------ | ----------------------- |
+| Node.js        | 22 LTS             | https://nodejs.org      |
+| Git            | ล่าสุด             | https://git-scm.com     |
+| Docker         | ล่าสุด             | https://docker.com      |
+| Docker Compose | v2+                | (รวมกับ Docker Desktop) |
 
 ---
 
@@ -330,20 +345,20 @@ npm run dev
 
 #### ผลการทดสอบ (Smoke Test — On-Premises)
 
-| ทดสอบ | URL | ผลลัพธ์ที่คาดหวัง | ผ่าน/ไม่ผ่าน |
-|-------|-----|-------------------|--------------|
-| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}` | ⬜ |
-| Frontend Login | `http://localhost:5173` | หน้า Login แสดงผลสำเร็จ | ⬜ |
+| ทดสอบ          | URL                                | ผลลัพธ์ที่คาดหวัง       | ผ่าน/ไม่ผ่าน |
+| -------------- | ---------------------------------- | ----------------------- | ------------ |
+| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}`       | แสดงผลสำเร็จ |
+| Frontend Login | `http://localhost:5173`            | หน้า Login แสดงผลสำเร็จ | แสดงผลสำเร็จ |
 
 #### หลักฐาน (On-Premises)
 
 > 📸 **ภาพหน้าจอ Backend Health Check** (`http://localhost:3001/api/health`)
-> 
-> (วางภาพที่นี่)
+>
+> ![3001](3001.png)
 
 > 📸 **ภาพหน้าจอ Frontend Login สำเร็จ** (`http://localhost:5173`)
 >
-> (วางภาพที่นี่)
+> ![5173](5173.png)
 
 ---
 
@@ -366,16 +381,16 @@ docker compose up --build
 
 #### ผลการทดสอบ (Smoke Test — Staging)
 
-| ทดสอบ | URL | ผลลัพธ์ที่คาดหวัง | ผ่าน/ไม่ผ่าน |
-|-------|-----|-------------------|--------------|
-| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}` | ⬜ |
-| Frontend       | `http://localhost:80` | หน้า Login แสดงผลสำเร็จ | ⬜ |
+| ทดสอบ          | URL                                | ผลลัพธ์ที่คาดหวัง       | ผ่าน/ไม่ผ่าน |
+| -------------- | ---------------------------------- | ----------------------- | ------------ |
+| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}`       | ⬜           |
+| Frontend       | `http://localhost:80`              | หน้า Login แสดงผลสำเร็จ | ⬜           |
 
 #### หลักฐาน (Staging)
 
 > 📸 **ภาพหน้าจอ `docker compose ps`** (ทุก Container สถานะ running)
->
-> (วางภาพที่นี่)
+> ![11](image copy.png)
+> ![12](image.png)
 
 ---
 
@@ -384,6 +399,7 @@ docker compose up --build
 > **ส่วนที่ 5.1**
 
 #### ขั้นตอน
+
 1. ไปที่ https://console.neon.tech → Create Project → เลือก PostgreSQL 16
 2. คัดลอก Connection String (format: `postgresql://user:pass@ep-xxx.neon.tech/db?sslmode=require`)
 3. ใช้เป็นค่า `DATABASE_URL` ใน Backend
@@ -415,13 +431,13 @@ Build Command:  npm run build
 
 ### Environment Variables Table
 
-| Variable      | Service   | ค่าตัวอย่าง / คำอธิบาย                         |
-|---------------|-----------|------------------------------------------------|
+| Variable       | Service  | ค่าตัวอย่าง / คำอธิบาย                                     |
+| -------------- | -------- | ---------------------------------------------------------- |
 | `DATABASE_URL` | Backend  | `postgresql://user:pass@host.neon.tech/db?sslmode=require` |
-| `JWT_SECRET`   | Backend  | random string ที่ปลอดภัย (≥ 32 ตัวอักษร)       |
-| `CORS_ORIGIN`  | Backend  | URL ของ Frontend เช่น `https://[app].vercel.app` |
-| `NODE_ENV`     | Backend  | `production`                                    |
-| `VITE_API_URL` | Frontend | URL ของ Backend เช่น `https://[api].onrender.com` |
+| `JWT_SECRET`   | Backend  | random string ที่ปลอดภัย (≥ 32 ตัวอักษร)                   |
+| `CORS_ORIGIN`  | Backend  | URL ของ Frontend เช่น `https://[app].vercel.app`           |
+| `NODE_ENV`     | Backend  | `production`                                               |
+| `VITE_API_URL` | Frontend | URL ของ Backend เช่น `https://[api].onrender.com`          |
 
 ---
 
@@ -429,14 +445,14 @@ Build Command:  npm run build
 
 > **ส่วนที่ 5.4 — ทดสอบ 4 Feature หลักบน Production**
 
-| # | Feature          | คำสั่ง / ขั้นตอน                              | Expected               | หลักฐาน | ผ่าน/ไม่ผ่าน |
-|---|------------------|-----------------------------------------------|------------------------|---------|--------------|
-| 1 | Health Check     | `GET /api/health`                             | `{"status":"ok"}`      | 📸      | ⬜           |
-| 2 | Login            | Login ด้วย admin บน Frontend URL              | เข้าระบบสำเร็จ        | 📸      | ⬜           |
-| 3 | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm             | ออเดอร์ถูกบันทึก      | 📸      | ⬜           |
-| 4 | Payment          | ชำระเงิน → ตรวจสอบ change                    | คำนวณเงินทอนถูกต้อง   | 📸      | ⬜           |
+| #   | Feature          | คำสั่ง / ขั้นตอน                 | Expected            | หลักฐาน | ผ่าน/ไม่ผ่าน |
+| --- | ---------------- | -------------------------------- | ------------------- | ------- | ------------ |
+| 1   | Health Check     | `GET /api/health`                | `{"status":"ok"}`   | 📸      | ⬜           |
+| 2   | Login            | Login ด้วย admin บน Frontend URL | เข้าระบบสำเร็จ      | 📸      | ⬜           |
+| 3   | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm | ออเดอร์ถูกบันทึก    | 📸      | ⬜           |
+| 4   | Payment          | ชำระเงิน → ตรวจสอบ change        | คำนวณเงินทอนถูกต้อง | 📸      | ⬜           |
 
-**Production Smoke Test ผ่าน: ___ / 4 รายการ**
+**Production Smoke Test ผ่าน: \_\_\_ / 4 รายการ**
 
 > 📸 (วางภาพหน้าจอหลักฐานแต่ละ Feature)
 
@@ -456,12 +472,12 @@ Build Command:  npm run build
 
 ### Newman Pass Rate (จาก CI/CD Pipeline)
 
-| Metric          | ค่า    |
-|-----------------|--------|
-| Total Tests     | ??     |
-| Tests Passed    | ??     |
-| Tests Failed    | ??     |
-| **Pass Rate**   | **??%** |
+| Metric        | ค่า     |
+| ------------- | ------- |
+| Total Tests   | ??      |
+| Tests Passed  | ??      |
+| Tests Failed  | ??      |
+| **Pass Rate** | **??%** |
 
 > 📸 **ภาพหน้าจอ GitHub Actions Pipeline สำเร็จ**
 >
@@ -469,4 +485,4 @@ Build Command:  npm run build
 
 ---
 
-*Template สร้างจากข้อสอบปฏิบัติการทดสอบและติดตั้งระบบซอฟต์แวร์เชิงธุรกิจ — PRIME-BSD Model*
+_Template สร้างจากข้อสอบปฏิบัติการทดสอบและติดตั้งระบบซอฟต์แวร์เชิงธุรกิจ — PRIME-BSD Model_
