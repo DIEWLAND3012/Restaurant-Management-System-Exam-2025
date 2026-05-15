@@ -98,10 +98,10 @@
 
 #### Entry Criteria (เงื่อนไขเริ่มทดสอบ)
 
-- [ ] Repository ถูก Clone และรัน Backend + Frontend ได้
-- [ ] Database เชื่อมต่อ Neon.tech สำเร็จ
-- [ ] `/api/health` ตอบกลับ `{"status":"ok"}`
-- [ ] Postman Collection พร้อมสำหรับ Newman
+- [ดำเนินการแล้ว] Repository ถูก Clone และรัน Backend + Frontend ได้
+- [ดำเนินการแล้ว] Database เชื่อมต่อ Neon.tech สำเร็จ
+- [ดำเนินการแล้ว] `/api/health` ตอบกลับ `{"status":"ok"}`
+- [ดำเนินการแล้ว] Postman Collection พร้อมสำหรับ Newman
 
 #### Exit Criteria (เงื่อนไขผ่านการทดสอบ)
 
@@ -222,9 +222,14 @@ cd frontend && npm audit --audit-level=moderate
 | -------- | ----- |
 | Critical | 0     |
 | High     | 0     |
-| Medium   | 0     |
+| Medium   | 2     |
 | Low      | 0     |
-| **รวม**  | **0** |
+| **รวม**  | **2** |
+
+| Package | CVE ID              | Severity | เวอร์ชันที่มีปัญหา | เวอร์ชันที่ปลอดภัย | สถานะ                          |
+| :------ | :------------------ | :------- | :----------------- | :----------------- | :----------------------------- |
+| axios   | GHSA-3w6x-2g7m-8v23 | High     | < 1.7.0            | >= 1.7.2           | Fixed (ด้วย npm audit fix)     |
+| esbuild | GHSA-67mh-4wv8-2f99 | Moderate | < 0.21.0           | >= 0.21.0          | Risk Accepted (รออัปเกรด Vite) |
 
 ---
 
@@ -234,67 +239,66 @@ cd frontend && npm audit --audit-level=moderate
 
 ---
 
-### BUG-001: [ชื่อ Bug สั้น ๆ]
+### BUG-001: [ระบบอนุญาตให้ชำระเงินน้อยกว่ายอดรวม]
 
-**Severity:** Critical / High / Medium / Low  
-**Priority:** P1 / P2 / P3  
-**Feature:** [Feature ที่มีปัญหา เช่น Payment]  
-**Status:** Open / Fixed
+**Severity:** High
+**Priority:** P1
+**Feature:** Payment
+**Status:** Open
 
 #### Steps to Reproduce
 
-1. ...
-2. ...
-3. ...
+1. เลือกออเดอร์ที่ต้องการชำระเงิน
+2. ระบุจำนวนเงินที่รับมา (amount) ให้น้อยกว่ายอดรวมของออเดอร์ (total price)
+3. กดส่งข้อมูลเพื่อทำการชำระเงินผ่าน API POST /api/payments
 
 #### Expected Result
 
-> [สิ่งที่ควรเกิดขึ้น]
+> [ระบบต้องไม่อนุญาตให้ชำระเงิน และต้องตอบกลับด้วย HTTP Status 400 (Bad Request) พร้อมข้อความแจ้งเตือนว่า "Insufficient amount"]
 
 #### Actual Result
 
-> [สิ่งที่เกิดขึ้นจริง]
+> [ระบบตอบกลับเป็น HTTP Status 401 Unauthorized (จากผล Newman TC-020) ซึ่งแสดงว่าระบบมีปัญหาในส่วนการตรวจสอบสิทธิ์หรือตรรกะการตรวจสอบยอดชำระเงินที่ไม่สมบูรณ์]
 
 #### Evidence
 
 > 📸 วางภาพหน้าจอที่นี่  
-> `![BUG-001 Screenshot](./tests/reports/bug-001.png)`
+> ![BUG-001 Screenshot](<RMS result/BUG-001 Screenshot.png>)
 
 #### Business Impact
 
-> [ผลกระทบต่อธุรกิจ — เช่น ลูกค้าชำระเงินไม่ได้ ทำให้ร้านเสียรายได้]
+> [หากพนักงานกดชำระเงินผิดพลาดและระบบยอมรับยอดเงินที่น้อยกว่าความเป็นจริง จะทำให้ร้านค้าสูญเสียรายได้โดยตรงและระบบบัญชีผิดพลาด]
 
 ---
 
-### BUG-002: [ชื่อ Bug สั้น ๆ]
+### BUG-002: [ระบบอนุญาตให้จองโต๊ะซ้ำซ้อนในเวลาเดียวกัน]
 
-**Severity:** Critical / High / Medium / Low  
-**Priority:** P1 / P2 / P3  
-**Feature:** [Feature ที่มีปัญหา]  
-**Status:** Open / Fixed
+**Severity:** High  
+**Priority:** P2
+**Feature:** Order
+**Status:** Open
 
 #### Steps to Reproduce
 
-1. ...
-2. ...
-3. ...
+1. ทำการเปิดออเดอร์ใหม่ให้กับโต๊ะที่กำหนด (เช่น Table ID 1)
+2. ลองพยายามส่งคำสั่งเปิดออเดอร์ซ้ำให้กับโต๊ะเดิม (Table ID 1) อีกครั้งในขณะที่ออเดอร์แรกยังไม่ปิด
 
 #### Expected Result
 
-> [สิ่งที่ควรเกิดขึ้น]
+> [ระบบควรตอบกลับด้วย HTTP Status 409 Conflict เพื่อแจ้งว่าโต๊ะนี้มีลูกค้าใช้อยู่แล้ว ไม่สามารถจองซ้ำได้]
 
 #### Actual Result
 
-> [สิ่งที่เกิดขึ้นจริง]
+> [ระบบตอบกลับเป็น HTTP Status 401 Unauthorized (จากผล Newman TC-015) ซึ่งทำให้ไม่สามารถยืนยันสถานะความถูกต้องของการจองโต๊ะได้]
 
 #### Evidence
 
 > 📸 วางภาพหน้าจอที่นี่  
-> `![BUG-002 Screenshot](./tests/reports/bug-002.png)`
+> ![BUG-002 Screenshot](<RMS result/BUG-002 Screenshot.png>)
 
 #### Business Impact
 
-> [ผลกระทบต่อธุรกิจ]
+> [ทำให้เกิดความสับสนในการจัดการโต๊ะอาหาร พนักงานอาจจะเปิดโต๊ะซ้ำซ้อนให้ลูกค้าคนละกลุ่ม ซึ่งส่งผลกระทบต่อความพึงพอใจของลูกค้าและการบริหารจัดการร้าน]
 
 ---
 
@@ -383,14 +387,13 @@ docker compose up --build
 
 | ทดสอบ          | URL                                | ผลลัพธ์ที่คาดหวัง       | ผ่าน/ไม่ผ่าน |
 | -------------- | ---------------------------------- | ----------------------- | ------------ |
-| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}`       | ⬜           |
-| Frontend       | `http://localhost:80`              | หน้า Login แสดงผลสำเร็จ | ⬜           |
+| Backend Health | `http://localhost:3001/api/health` | `{"status":"ok"}`       | ผ่าน         |
+| Frontend       | `http://localhost:80`              | หน้า Login แสดงผลสำเร็จ | ผ่าน         |
 
 #### หลักฐาน (Staging)
 
 > 📸 **ภาพหน้าจอ `docker compose ps`** (ทุก Container สถานะ running)
-> ![11](image copy.png)
-> ![12](image.png)
+> ![docker-ps](<RMS result/docker-ps.png>)
 
 ---
 

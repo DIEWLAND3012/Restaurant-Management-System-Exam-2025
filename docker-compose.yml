@@ -1,48 +1,31 @@
 services:
-  # ฐานข้อมูล PostgreSQL
-  db:
-    image: postgres:16-alpine
-    container_name: rms-db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=adminpassword
-      - POSTGRES_DB=restaurant_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  # Backend API
+  # ── Backend ──────────────────────────────────────
   backend:
-    build: ./backend
-    container_name: rms-backend
-    restart: always
+    build: 
+      context: ./backend
     ports:
       - "3001:3001"
     environment:
-      - DATABASE_URL=postgresql://postgres:adminpassword@db:5432/restaurant_db
-      - JWT_SECRET=YourSuperSecretKey2025
-      - NODE_ENV=development
-    depends_on:
-      - db
+      # อย่าลืมใส่ Connection String ของ Neon.tech นะครับ
+      - DATABASE_URL=postgresql://neondb_owner:npg_8CV9jhlMwNQB@ep-cold-cake-ao8vwbrn-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      - JWT_SECRET=supersecretkey_rms_exam_wasin_68030262_secure_token
+      - NODE_ENV=production
+      - CORS_ORIGIN=http://localhost
+    # เพิ่ม Healthcheck เพื่อให้ Frontend รู้ว่า Backend พร้อมหรือยัง
     healthcheck:
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health" ]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Frontend (เน้นการฝัง VITE_API_URL ให้ตรงพอร์ต 3001)
+  # ── Frontend ─────────────────────────────────────
   frontend:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=http://localhost:3001
-    container_name: rms-frontend
+        - VITE_API_URL=/api
     ports:
       - "80:80"
     depends_on:
       backend:
         condition: service_healthy
-
-volumes:
-  postgres_data:
