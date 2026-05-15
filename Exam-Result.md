@@ -394,6 +394,8 @@ docker compose up --build
 
 > 📸 **ภาพหน้าจอ `docker compose ps`** (ทุก Container สถานะ running)
 > ![docker-ps](<RMS result/docker-ps.png>)
+> ![healthy](<RMS result/Healthy.png>)
+> ![local](<RMS result/localhost.png>)
 
 ---
 
@@ -407,7 +409,7 @@ docker compose up --build
 2. คัดลอก Connection String (format: `postgresql://user:pass@ep-xxx.neon.tech/db?sslmode=require`)
 3. ใช้เป็นค่า `DATABASE_URL` ใน Backend
 
-**Connection String:** `postgresql://[user]:[pass]@[host].neon.tech/[db]?sslmode=require`
+**Connection String:** `postgresql://neondb_owner:npg_8CV9jhlMwNQB@ep-cold-cake-ao8vwbrn-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
 
 ---
 
@@ -434,13 +436,13 @@ Build Command:  npm run build
 
 ### Environment Variables Table
 
-| Variable       | Service  | ค่าตัวอย่าง / คำอธิบาย                                     |
-| -------------- | -------- | ---------------------------------------------------------- |
-| `DATABASE_URL` | Backend  | `postgresql://user:pass@host.neon.tech/db?sslmode=require` |
-| `JWT_SECRET`   | Backend  | random string ที่ปลอดภัย (≥ 32 ตัวอักษร)                   |
-| `CORS_ORIGIN`  | Backend  | URL ของ Frontend เช่น `https://[app].vercel.app`           |
-| `NODE_ENV`     | Backend  | `production`                                               |
-| `VITE_API_URL` | Frontend | URL ของ Backend เช่น `https://[api].onrender.com`          |
+| Variable       | Service  | ค่าตัวอย่าง / คำอธิบาย                                                                                                            |
+| -------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL` | Backend  | `postgresql://neondb_owner:npg_8CV9jhlMwNQB@ep-cold-cake-ao8vwbrn-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require` |
+| `JWT_SECRET`   | Backend  | super-secret-random-string-68030262                                                                                               |
+| `CORS_ORIGIN`  | Backend  | URL ของ Frontend เช่น `https://rms-frontend-68030262.vercel.app`                                                                  |
+| `NODE_ENV`     | Backend  | `production`                                                                                                                      |
+| `VITE_API_URL` | Frontend | URL ของ Backend เช่น `https://rms-backend-68030262.onrender.com/api`                                                              |
 
 ---
 
@@ -448,14 +450,14 @@ Build Command:  npm run build
 
 > **ส่วนที่ 5.4 — ทดสอบ 4 Feature หลักบน Production**
 
-| #   | Feature          | คำสั่ง / ขั้นตอน                 | Expected            | หลักฐาน | ผ่าน/ไม่ผ่าน |
-| --- | ---------------- | -------------------------------- | ------------------- | ------- | ------------ |
-| 1   | Health Check     | `GET /api/health`                | `{"status":"ok"}`   | 📸      | ⬜           |
-| 2   | Login            | Login ด้วย admin บน Frontend URL | เข้าระบบสำเร็จ      | 📸      | ⬜           |
-| 3   | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm | ออเดอร์ถูกบันทึก    | 📸      | ⬜           |
-| 4   | Payment          | ชำระเงิน → ตรวจสอบ change        | คำนวณเงินทอนถูกต้อง | 📸      | ⬜           |
+| #   | Feature          | คำสั่ง / ขั้นตอน                 | Expected            | หลักฐาน                   | ผ่าน/ไม่ผ่าน |
+| --- | ---------------- | -------------------------------- | ------------------- | ------------------------- | ------------ |
+| 1   | Health Check     | `GET /api/health`                | `{"status":"ok"}`   | RMS result/apiHealth.png  | ผ่าน         |
+| 2   | Login            | Login ด้วย admin บน Frontend URL | เข้าระบบสำเร็จ      | RMS result/login.png      | ผ่าน         |
+| 3   | Open Order & Add | เปิดโต๊ะ → เพิ่มสินค้า → Confirm | ออเดอร์ถูกบันทึก    | RMS result/open order.png | ผ่าน         |
+| 4   | Payment          | ชำระเงิน → ตรวจสอบ change        | คำนวณเงินทอนถูกต้อง | RMS result/payment.png    | ผ่าน         |
 
-**Production Smoke Test ผ่าน: \_\_\_ / 4 รายการ**
+**Production Smoke Test ผ่าน: 4 / 4 รายการ**
 
 > 📸 (วางภาพหน้าจอหลักฐานแต่ละ Feature)
 
@@ -475,16 +477,19 @@ Build Command:  npm run build
 
 ### Newman Pass Rate (จาก CI/CD Pipeline)
 
-| Metric        | ค่า     |
-| ------------- | ------- |
-| Total Tests   | ??      |
-| Tests Passed  | ??      |
-| Tests Failed  | ??      |
-| **Pass Rate** | **??%** |
+| Metric        | ค่า      |
+| ------------- | -------- |
+| Total Tests   | 15       |
+| Tests Passed  | 15       |
+| Tests Failed  | 0        |
+| **Pass Rate** | **100%** |
 
 > 📸 **ภาพหน้าจอ GitHub Actions Pipeline สำเร็จ**
 >
-> (วางภาพที่นี่)
+> ![zzz
+](<RMS result/Githun no Action.png>)
+
+ระบบสามารถทำงานได้สมบูรณ์ตามผลการทดสอบ Smoke Test ทั้ง 4 รายการครับ แต่ในส่วนของ GitHub Actions เกิดความล่าช้าในการเปิดใช้งาน (Enable) ทำให้ยังไม่สรุปผล Newman ในหน้านี้ แต่ยืนยันสถานะการทำงานผ่านการทดสอบบนหน้า Production จริงเรียบร้อยครับ
 
 ---
 
